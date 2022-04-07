@@ -1,0 +1,102 @@
+{% extends 'login.html' %}
+{% block title %} Registration {% endblock %}
+
+{% block body %}
+{% if data.user == True %}
+    <div class="navbar navbar-light w-25" style="margin-left: 40%">
+        <a href="?user=True" class="btn btn-primary btn-lg">User</a>
+        <a href="?company=True" class="btn btn-secondary btn-lg">Company</a>
+    </div>
+    <div class="container p-2">
+        <form method="POST" action="user_registering" enctype="multipart/form-data">
+            <div class="row">
+                <div class="form-group col p-2">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                    <small id="email" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group col p-2">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col p-2">
+                    <label for="first_name">First Name</label>
+                    <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name">
+                </div>
+                <div class="form-group col p-2">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col p-2">
+                    <label for="phone_number">Phone Number</label>
+                    <input type="text" name="phone_number" class="form-control" id="phone_number" placeholder="Phone Number">
+                </div>
+                <div class="form-group col p-2">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col p-2">
+                    <label for="qualification">Qualifications</label>
+                    <input name="qualification" class="form-control" id="qualification" placeholder="Qualifications">
+                </div>
+                <div class="form-group col p-2">
+                    <label for="image">Upload Image</label>
+                    <input type="file" name="image" class="form-control" id="image" placeholder="Image">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col p-2">
+                    <label for="skills">Skills</label>
+                    <input name="skills" class="form-control" id="skills" placeholder="Write skills using differentiating with comma">
+                    <small class="form-text text-muted">Write skills using differentiating with comma.</small>
+                </div>
+            <div class="form-group p-2">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+    </div>
+{% elif data.company == True %}
+
+    <div class="navbar navbar-light w-25" style="margin-left: 40%">
+        <a href="?user=True" class="btn btn-secondary btn-lg">User</a>
+        <a href="?company=True" class="btn btn-primary btn-lg">Company</a>
+    </div>
+    <div class="container p-2">
+        <form style="width: 50%;" method="post" action="company_registering">
+            <div class="form-group p-2">
+                <label for="company_name">Company Name</label>
+                <input type="text" name="name" class="form-control" id="company_name" placeholder="Company Name" required>
+            </div>
+            <div class="form-group p-2">
+                <label for="company_name">Company Admin Username</label>
+                <input type="text" name="username" class="form-control" id="company_admin" placeholder="Username" required>
+            </div>
+            <div class="form-group col p-2">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                </div>
+            <div class="form-group p-2">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+            </div>
+            <div class="col p-2">
+                    <label for="hiring">Hiring For</label>
+                    <textarea class="form-control" name="hiring_for" placeholder="eg:- Python,Java" required></textarea>
+            </div>
+            <div class="form-group p-2">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+    </div>
+
+{% endif %}
+
+<a href="/" style="text-decoration: none;">Login Page</a>
+
+{% endblock %}

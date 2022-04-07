@@ -1,0 +1,146 @@
+{% extends 'login.html' %}
+{% block title %} Home {% endblock %}
+
+{% block body %}
+<div class="container p-2">
+    <a href="/home/company/job/applied/users?company_id={{data.company}}" class="btn btn-secondary" >Jobs Applications</a>
+</div>
+
+<div class="container p-2" >
+    {% if job %}
+        <form style="width: 100%;" method="post" action="/home/company/admin/job/update/{{job.id}}">
+            <input type="hidden" name="company_id" id="company_id" value="{{ job.company_id }}"/>
+            <input type="hidden" name="user_id" id="user_id" value="{{ job.user_id }}"/>
+            <div class="row">
+                <div class="col p-2">
+                    <label for="job_title">Job Title</label>
+                    <input type="text" class="form-control" name="job_title" id="job_title" placeholder="Job Title" value="{{ job.job_title }}">
+                </div>
+                <div class="col p-2">
+                    <label for="job_salary">Job Salary</label>
+                    <input type="text" name="job_salary" class="form-control" id="job_salary" placeholder="Job Salary" value="{{ job.job_salary }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="dropdown p-2">
+                        <label>Requirements:</label><br>
+                        <select class="form-select" name="job_requirements" id="job_requirements">
+                            <option value="{{ job.requirement.id}}">{{ job.requirement.name }}</option>
+                        {% for item in data.requirements %}
+                            {% if item.id != job.requirement.id %}
+                                <option value="{{ item.id }}">{{ item.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col p-2">
+                    <label for="job_location">Job Location</label>
+                    <input type="text" name="job_location" class="form-control" id="job_location" placeholder="Job Location" value="{{ job.job_location }}">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col p-2">
+                    <label for="job_description">Job Description</label>
+                    <textarea class="form-control" name="job_description">{{ job.job_description }}</textarea>
+                </div>
+                <div class="col p-2">
+                    <label for="skills">Job Skills</label>
+                    <textarea class="form-control" name="job_skills" readonly>{% for item in job.skills %}{{ item.name }},{% endfor %}</textarea>
+                </div>
+            </div>
+            <div class="form-group p-2">
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </form>
+
+    {% else %}
+
+        <form style="width: 100%;" method="post" action="/home/company/admin/job/add">
+            <input type="hidden" name="company_id" id="company_id" value="{{ data.company }}"/>
+            <input type="hidden" name="user_id" id="user_id" value="{{ data.user }}"/>
+            <div class="row">
+                <div class="col p-2">
+                    <label for="job_title">Job Title</label>
+                    <input type="text" class="form-control" name="job_title" id="job_title" placeholder="Job Title">
+                </div>
+                <div class="col p-2">
+                    <label for="job_salary">Job Salary</label>
+                    <input type="text" name="job_salary" class="form-control" id="job_salary" placeholder="Job Salary">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="dropdown p-2">
+                        <label>Requirements:</label><br>
+                        <select class="form-select" name="job_requirements" id="job_requirements">
+                            <option>Select Requirements</option>
+                        {% for item in data.requirements %}
+                            <option value="{{ item.id }}">{{ item.name }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col p-2">
+                    <label for="job_location">Job Location</label>
+                    <input type="text" name="job_location" class="form-control" id="job_location" placeholder="Job Location">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col p-2">
+                    <label for="job_description">Job Description</label>
+                    <textarea class="form-control" name="job_description"></textarea>
+                </div>
+                <div class="col p-2">
+                    <label for="skills">Job Skills</label>
+                    <textarea class="form-control" name="job_skills"></textarea>
+                </div>
+            </div>
+            <div class="form-group p-2">
+                <button type="submit" class="btn btn-primary">ADD</button>
+            </div>
+        </form>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Job Title</th>
+                <th scope="col">Job Description</th>
+                <th scope="col">Job Location</th>
+                <th scope="col">Job Salary</th>
+                <th scope="col">Skills</th>
+                <th scope="col">Requirements</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in data.jobs %}
+                <tr>
+                    <td>{{job.job_title}}</td>
+                    <td>{{job.job_description}}</td>
+                    <td>{{job.job_location}}</td>
+                    <td>{{job.job_salary}}</td>
+                    <td>
+                        {% for item in job.skills %}
+                        {{item.name}},
+                        {% endfor %}
+                    </td>
+                    <td>{{job.requirement.name}}</td>
+                    <td><a href="/home/company/admin/job/update/{{ job.id }}" style="text-decoration: none;">Edit</a></td>
+                    <td><a href="/home/company/admin/job/update/{{ job.id }}?delete=True" style="text-decoration: none;">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    window.localStorage.setItem('company_id', '{{ data.company }}');
+    window.localStorage.setItem('user_id', '{{ data.user }}');
+    document.getElementById('company_id').value= window.localStorage.getItem('company_id');
+    document.getElementById('user_id').value= window.localStorage.getItem('user_id');
+</script>
+{% endblock %}
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>{% block title %} Login {% endblock %}</title>
+</head>
+<body class="p-5 text-center">
+    {% if data.login_page %}
+    {% else %}
+    <a href="/log_out" style="text-decoration: none;">Logout</a>
+    {% endif %}
+        
+    {% block body %}
+    <div class="container border w-50 h-50" style="display: flex; align-items: center; justify-content: center">
+        <form style="width: 90%;" method="post" action="loging_in">
+            <div class="form-group p-2">
+                <input type="text" class="form-control" name="email_username" id="email" aria-describedby="emailHelp" placeholder="Email or Username">
+            </div>
+            <div class="form-group p-2">
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <div class="form-group p-2">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            <div class="form-group p-2">
+                <a class="btn btn-secondary p-2" href="register_page?user=True">New User? Click Here</a>
+            </div>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

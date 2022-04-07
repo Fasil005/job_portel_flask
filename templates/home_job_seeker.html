@@ -1,0 +1,88 @@
+{% extends 'login.html' %}
+{% block title %} Home {% endblock %}
+
+{% block body %}
+
+{% if response %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Full Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Image</th>
+                <th scope="col">Qualifications</th>
+                <th scope="col">Skills By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in response %}
+                <tr>
+                    <td>{{user.user.first_name}} {{user.user.last_name}}</td>
+                    <td>{{user.user.email}}</td>
+                    <td>{{user.user.phone_number}}</td>
+                    <td><a href="/{{user.user.photo}}" target="_blank">Profile Pic</a></td>
+                    <td>{{user.user.qualification}}</td>
+                    <td>{% for item in user.user.skills %}
+                        {{ item.name }},
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    {% if data.non_searchable %}
+    {% else %}
+    <form action="/home/job/users/search?user_id={{ user_id }}" method="post">
+
+        <div class="input-group">
+          <input type="search" name="keyword" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+          <input type="submit" class="btn btn-outline-primary">
+        </div>
+    </form>
+    {% endif %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Job Title</th>
+                <th scope="col">Job Description</th>
+                <th scope="col">Job Location</th>
+                <th scope="col">Job Salary</th>
+                <th scope="col">Skills</th>
+                <th scope="col">Requirements</th>
+                <th scope="col">Posted Company</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <td>{{job.job_title}}</td>
+                    <td>{{job.job_description}}</td>
+                    <td>{{job.job_location}}</td>
+                    <td>{{job.job_salary}}</td>
+                    <td>{% for item in job.skills %}
+                        {{item.name}},
+                        {% endfor %}
+                    </td>
+                    <td>{{job.requirement.name}}</td>
+                    <td>{{job.company.name}}</td>
+                    {% if job.id in applied_jobs %}
+                        <td>Applied</td>
+                    {% else %}
+                        <td><a href="/home/company/user/job/apply?user_id={{user_id}}&job_id={{job.id}}" style="text-decoration: none;">Apply</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+<script type="text/javascript">
+    window.localStorage.setItem('company_id', '{{ data.company }}');
+    window.localStorage.setItem('user_id', '{{ data.user }}');
+    document.getElementById('company_id').value= window.localStorage.getItem('company_id');
+    document.getElementById('user_id').value= window.localStorage.getItem('user_id');
+</script>
+{% endblock %}
